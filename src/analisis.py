@@ -4,6 +4,23 @@ import matplotlib.pyplot as plt
 # Cargar los datos
 datos = pd.read_csv("data/StudentsPerformance.csv")
 
+
+# Limpieza y preprocesamiento de datos
+columnas_calificaciones = ["math score", "reading score", "writing score"]
+
+datos[columnas_calificaciones] = datos[columnas_calificaciones].apply(
+    pd.to_numeric, errors="coerce"
+)
+
+print("\nValores faltantes:")
+print(datos.isnull().sum())
+
+print("\nFilas duplicadas:", datos.duplicated().sum())
+
+datos = datos.drop_duplicates()
+
+datos = datos.dropna(subset=columnas_calificaciones)
+
 # Mostrar las primeras filas
 print(datos.head())
 
